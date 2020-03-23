@@ -618,6 +618,9 @@ void double_rq_lock(struct rq *rq1, struct rq *rq2)
 EXPORT_SYMBOL_GPL(double_rq_lock);
 #endif
 
+/*record the min capacity cpus*/
+struct cpumask min_cap_cpu_mask;
+
 /*
  * __task_rq_lock - lock the rq @p resides on.
  */
@@ -10093,6 +10096,8 @@ void __init sched_init(void)
 	preempt_dynamic_init();
 
 	scheduler_running = 1;
+
+	cpumask_clear(&min_cap_cpu_mask);
 }
 
 #ifdef CONFIG_DEBUG_ATOMIC_SLEEP
