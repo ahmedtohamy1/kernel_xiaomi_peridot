@@ -106,6 +106,7 @@ accumulate_sum(u64 delta, struct sched_avg *sa,
 {
 	u32 contrib = (u32)delta; /* p == 0 -> delta < 1024 */
 	u64 periods;
+	u64 divider;
 
 	delta += sa->period_contrib;
 	periods = delta / 1024; /* A period is 1024us (~1ms) */
@@ -139,13 +140,21 @@ accumulate_sum(u64 delta, struct sched_avg *sa,
 		}
 	}
 	sa->period_contrib = delta;
+	divider = LOAD_AVG_MAX - 1024 + sa->period_contrib;
 
-	if (load)
+	if (load) {
 		sa->load_sum += load * contrib;
-	if (runnable)
+		sa->load_sum = min_t(u64, sa->load_sum, divider * load);
+	}
+	if (runnable) {
 		sa->runnable_sum += runnable * contrib << SCHED_CAPACITY_SHIFT;
-	if (running)
+		sa->runnable_sum = min_t(u64, sa->runnable_sum,
+						divider * runnable << SCHED_CAPACITY_SHIFT);
+	}
+	if (running) {
 		sa->util_sum += contrib << SCHED_CAPACITY_SHIFT;
+		sa->util_sum = min_t(u64, sa->util_sum, divider << SCHED_CAPACITY_SHIFT);
+	}
 
 	return periods;
 }
