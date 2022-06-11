@@ -17,7 +17,7 @@
 #ifndef _UAPI__ASM_SIGCONTEXT_H
 #define _UAPI__ASM_SIGCONTEXT_H
 
-#ifdef CONFIG_64BIT
+#ifdef __aarch64__
 #ifndef __ASSEMBLY__
 
 #include <linux/types.h>
@@ -267,7 +267,7 @@ struct za_context {
 
 #define SVE_SIG_CONTEXT_SIZE(vq) \
 		(SVE_SIG_REGS_OFFSET + SVE_SIG_REGS_SIZE(vq))
-#else /* CONFIG_64BIT */
+#else /* __aarch64__ */
 
 /*
  * Signal context structure - contains all info to do with the state
@@ -297,7 +297,7 @@ struct sigcontext {
 	unsigned long arm_cpsr;
 	unsigned long fault_address;
 };
-#endif /* CONFIG_64BIT */
+#endif /* __aarch64__ */
 
 /*
  * If the ZA register is enabled for the thread at signal delivery then,
