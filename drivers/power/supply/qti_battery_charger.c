@@ -2952,6 +2952,9 @@ static int battery_psy_get_prop(struct power_supply *psy,
                     || bcdev->glink_crash_count > 3)
 			pval->intval = POWER_SUPPLY_STATUS_DISCHARGING;
 		break;
+	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
+		pval->intval = pst->prop[prop_id] * 1000;
+		break;
 	default:
 		pval->intval = pst->prop[prop_id];
 		break;
