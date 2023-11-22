@@ -2052,5 +2052,11 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
 config ARCH_HAS_SYSCALL_WRAPPER
 	def_bool n
 
+config UCLAMP_ASSIST
+	bool "UClamp configuration helper"
+	depends on ANDROID && UCLAMP_TASK && UCLAMP_TASK_GROUP
+	help
+	  This option enabled in-kernel uclamp setting overrides
+
 source "init/Kconfig.gki"
 source "init/Kconfig.gki-debug"
