@@ -4,6 +4,9 @@
 # Combined dtb target is also generated using the fdt_overlay tool.
 # dtb-y += <base>-<board>.dtb
 
+## HAX
+dtb-y += peridot.dtb
+
 add-overlays = $(foreach o,$1,$(foreach b,$2,$(eval $(basename $b)-$(basename $o)-dtbs = $b $o) $(basename $b)-$(basename $o).dtb))
 
 # pineapple-dtb-y is list of DTBs to install when doing non-overlay build
@@ -51,7 +54,8 @@ CLIFFS_APQ_BASE_DTB += cliffsp.dtb cliffs7p.dtb
 
 ifeq ($(CONFIG_ARCH_CLIFFS),y)
 dtb-y += \
-	peridot-sm8635-overlay.dtbo
+	peridot-sm8635-overlay.dtbo \
+	peridot.dtb
 
 peridot-sm8635-overlay.dtbo-base := $(CLIFFS_BASE_DTB)
 endif
