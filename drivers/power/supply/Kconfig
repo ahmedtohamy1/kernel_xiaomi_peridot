@@ -998,6 +998,11 @@ config MI_MULTI_CHG_CFG
 	help
 	  Say y here to support multi charging config in one product
 
+config CHARGER_PARTITION
+	tristate "charger partition"
+	help
+	  Say y here to support charger partition
+
 source "drivers/power/supply/qcom/Kconfig"
 
 endif # POWER_SUPPLY
