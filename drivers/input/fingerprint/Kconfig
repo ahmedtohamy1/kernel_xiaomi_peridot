@@ -21,4 +21,5 @@ if INPUT_FINGERPRINT
 source "drivers/input/fingerprint/goodix_fod/Kconfig"
 source "drivers/input/fingerprint/goodix_cap/Kconfig"
 source "drivers/input/fingerprint/mi_fp/Kconfig"
+source "drivers/input/fingerprint/mi_fp_ultra/Kconfig"
 endif
