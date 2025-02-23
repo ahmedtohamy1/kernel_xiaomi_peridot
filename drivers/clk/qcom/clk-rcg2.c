@@ -1597,6 +1597,7 @@ const struct clk_ops clk_rcg2_shared_ops = {
 	.unprepare = clk_unprepare_regmap,
 	.pre_rate_change = clk_pre_change_regmap,
 	.post_rate_change = clk_post_change_regmap,
+	.init = clk_rcg2_shared_init,
 	.enable = clk_rcg2_shared_enable,
 	.disable = clk_rcg2_shared_disable,
 	.get_parent = clk_rcg2_shared_get_parent,

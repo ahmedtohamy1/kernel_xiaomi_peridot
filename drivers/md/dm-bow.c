@@ -587,7 +587,6 @@ static struct attribute *bow_attrs[] = {
 	&attr_free.attr,
 	NULL
 };
-
 ATTRIBUTE_GROUPS(bow);
 
 static struct kobj_type bow_ktype = {
@@ -1033,8 +1032,7 @@ static int add_trim(struct bow_context *bc, struct bio *bio)
 	struct bow_range *br;
 	struct bvec_iter bi_iter = bio->bi_iter;
 
-	DMDEBUG("%s: %llu, %u",
-		__func__,
+	DMDEBUG("add_trim: %llu, %u",
 		(unsigned long long)bio->bi_iter.bi_sector,
 		bio->bi_iter.bi_size);
 
@@ -1073,8 +1071,7 @@ static int remove_trim(struct bow_context *bc, struct bio *bio)
 	struct bow_range *br;
 	struct bvec_iter bi_iter = bio->bi_iter;
 
-	DMDEBUG("%s: %llu, %u",
-		__func__,
+	DMDEBUG("remove_trim: %llu, %u",
 		(unsigned long long)bio->bi_iter.bi_sector,
 		bio->bi_iter.bi_size);
 
@@ -1115,8 +1112,8 @@ int remap_unless_illegal_trim(struct bow_context *bc, struct bio *bio)
 		return DM_MAPIO_SUBMITTED;
 	} else {
 		bio_set_dev(bio, bc->dev->bdev);
+		return DM_MAPIO_REMAPPED;
 	}
-	return DM_MAPIO_REMAPPED;
 }
 
 /****** dm interface ******/
@@ -1130,6 +1127,9 @@ static int dm_bow_map(struct dm_target *ti, struct bio *bio)
 		return remap_unless_illegal_trim(bc, bio);
 
 	if (bio_data_dir(bio) == READ && bio->bi_iter.bi_sector != 0)
+		return remap_unless_illegal_trim(bc, bio);
+
+	if (bio->bi_iter.bi_size == 0)
 		return remap_unless_illegal_trim(bc, bio);
 
 	if (atomic_read(&bc->state) != COMMITTED) {

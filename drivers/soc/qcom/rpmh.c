@@ -175,6 +175,7 @@ static int __rpmh_write(const struct device *dev, enum rpmh_state state,
 	}
 
 	if (state == RPMH_ACTIVE_ONLY_STATE) {
+<<<<<<< HEAD
 		WARN_ON(irqs_disabled());
 
 		ch = rpmh_rsc_get_channel(ctrlr_to_drv(ctrlr));
@@ -182,6 +183,9 @@ static int __rpmh_write(const struct device *dev, enum rpmh_state state,
 			return ch;
 
 		ret = rpmh_rsc_send_data(ctrlr_to_drv(ctrlr), &rpm_msg->msg, ch);
+=======
+		ret = rpmh_rsc_send_data(ctrlr_to_drv(ctrlr), &rpm_msg->msg);
+>>>>>>> 0780ea736ecc756c9788141272c089936b0a4a90
 	} else {
 		/* Clean up our call by spoofing tx_done */
 		ret = 0;
